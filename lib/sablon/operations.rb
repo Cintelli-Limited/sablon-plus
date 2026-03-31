@@ -88,13 +88,18 @@ module Sablon
         # are cleared from the document.
         until @conditions.empty?
           condition = @conditions.shift
-          conditon_expr = condition[:condition_expr]
+          condition_expr = condition[:condition_expr]
           predicate = condition[:predicate]
           block = condition[:block]
           #
-          # fetch value optionally calling a predicate method
-          value = conditon_expr.evaluate(env.context)
-          value = value.public_send(predicate) if predicate
+          # evaluate the condition - either with a predicate expression or just the value
+          value = if predicate
+                    # Evaluate the expression to get the object, then call predicate on it
+                    obj = condition_expr.evaluate(env.context)
+                    evaluate_predicate(predicate, obj, env.context)
+                  else
+                    condition_expr.evaluate(env.context)
+                  end
           #
           if truthy?(value)
             block.replace(block.process(env).reverse)
@@ -102,6 +107,33 @@ module Sablon
           else
             block.replace([])
           end
+        end
+      end
+
+      def evaluate_predicate(predicate, obj, context)
+        # Handle comparison expressions like "client.name == 'Fraser Mayfield'"
+        if predicate =~ /(.+?)\s*(==|!=|>|<|>=|<=)\s*(.+)/
+          left_expr = $1.strip
+          operator = $2
+          right_value = $3.strip.gsub(/^['"]|['"]$/, '')  # Remove quotes
+          
+          # Evaluate the left side expression
+          left_val = Expression.parse(left_expr).evaluate(context)
+          
+          # Perform the comparison
+          case operator
+          when '==' then left_val.to_s == right_value
+          when '!=' then left_val.to_s != right_value
+          when '>'  then left_val.to_f > right_value.to_f
+          when '<'  then left_val.to_f < right_value.to_f
+          when '>=' then left_val.to_f >= right_value.to_f
+          when '<=' then left_val.to_f <= right_value.to_f
+          else false
+          end
+        else
+          # Handle method call predicates like "empty?"
+          # Call the method on the object
+          obj.respond_to?(predicate) ? obj.public_send(predicate) : false
         end
       end
 
@@ -183,12 +215,95 @@ module Sablon
       end
     end
 
+    # Extended parse to support logical and comparison operators
     def self.parse(expression)
-      if expression.include?(".")
-        parts = expression.split(".")
-        LookupOrMethodCall.new(Variable.new(parts.shift), parts.join("."))
-      else
-        Variable.new(expression)
+      expr = expression.strip
+      # Parse logical operators at the top level (lowest precedence)
+      depth = 0
+      i = 0
+      while i < expr.length
+        if expr[i] == '(' then depth += 1
+        elsif expr[i] == ')' then depth -= 1
+        elsif depth == 0
+          if expr[i..i+3] == ' and'
+            left = expr[0...i].strip
+            right = expr[(i+4)..-1].strip
+            return Logical.new(parse(left), 'and', parse(right))
+          elsif expr[i..i+2] == ' or'
+            left = expr[0...i].strip
+            right = expr[(i+3)..-1].strip
+            return Logical.new(parse(left), 'or', parse(right))
+          end
+        end
+        i += 1
+      end
+      # Parse comparison operators next
+      if expr =~ /(.+?)\s*(==|!=|>=|<=|>|<)\s*(.+)/
+        left = parse($1)
+        op = $2
+        right = parse($3)
+        return Comparison.new(left, op, right)
+      end
+      if expr.include?(".")
+        parts = expr.split(".")
+        return LookupOrMethodCall.new(Variable.new(parts.shift), parts.join("."))
+      end
+      if expr =~ /^\d+(\.\d+)?$/
+        # Numeric literal
+        return NumericLiteral.new(expr.include?(".") ? expr.to_f : expr.to_i)
+      end
+      if expr =~ /^'.*'|^".*"/
+        # String literal
+        return StringLiteral.new(expr[1..-2])
+      end
+      Variable.new(expr)
+    end
+
+    class Comparison < Struct.new(:left, :op, :right)
+      def evaluate(context)
+        l = left.evaluate(context)
+        r = right.evaluate(context)
+        # Only compare if both are not nil/false and are comparable
+        case op
+        when '==' then l == r
+        when '!=' then l != r
+        when '>'  then l.is_a?(Numeric) && r.is_a?(Numeric) ? l > r : false
+        when '<'  then l.is_a?(Numeric) && r.is_a?(Numeric) ? l < r : false
+        when '>=' then l.is_a?(Numeric) && r.is_a?(Numeric) ? l >= r : false
+        when '<=' then l.is_a?(Numeric) && r.is_a?(Numeric) ? l <= r : false
+        else false
+        end
+      end
+    end
+
+    class Logical < Struct.new(:left, :op, :right)
+      def evaluate(context)
+        case op
+        when 'and'
+          l = left.evaluate(context)
+          return false unless l
+          r = right.evaluate(context)
+          !!(l && r)
+        when 'or'
+          l = left.evaluate(context)
+          return true if l
+          r = right.evaluate(context)
+          !!(l || r)
+        else
+          false
+        end
+      end
+    end
+
+    class NumericLiteral < Struct.new(:value)
+      def evaluate(_context)
+        value
+      end
+    end
+
+    class StringLiteral < Struct.new(:value)
+      def evaluate(_context)
+        value
       end
     end
   end
