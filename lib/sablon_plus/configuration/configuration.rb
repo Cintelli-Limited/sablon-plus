@@ -1,5 +1,5 @@
 require 'singleton'
-require 'sablon/configuration/html_tag'
+require 'sablon_plus/configuration/html_tag'
 
 module Sablon
   # Handles storing configuration data for the sablon module
