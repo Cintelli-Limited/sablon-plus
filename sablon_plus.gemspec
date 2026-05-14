@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'sablon/version'
+require 'sablon_plus/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "sablon"
+  spec.name          = "sablon_plus"
   spec.version       = Sablon::VERSION
   spec.authors       = ["Yves Senn"]
   spec.email         = ["yves.senn@gmail.com"]
