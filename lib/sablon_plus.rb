@@ -1,18 +1,18 @@
 require 'zip'
 require 'nokogiri'
 
-require "sablon/version"
-require "sablon/configuration/configuration"
+require "sablon_plus/version"
+require "sablon_plus/configuration/configuration"
 
-require "sablon/context"
-require "sablon/environment"
-require "sablon/template"
-require "sablon/processor/document"
-require "sablon/processor/section_properties"
-require "sablon/parser/mail_merge"
-require "sablon/operations"
-require "sablon/html/converter"
-require "sablon/content"
+require "sablon_plus/context"
+require "sablon_plus/environment"
+require "sablon_plus/template"
+require "sablon_plus/processor/document"
+require "sablon_plus/processor/section_properties"
+require "sablon_plus/parser/mail_merge"
+require "sablon_plus/operations"
+require "sablon_plus/html/converter"
+require "sablon_plus/content"
 
 module SablonPlus
   class TemplateError < ArgumentError; end
