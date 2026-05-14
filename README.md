@@ -1,7 +1,7 @@
 # Sablon
 
 [![Gem Version](https://badge.fury.io/rb/sablon.svg)](http://badge.fury.io/rb/sablon)
-[![Build Status](https://github.com/senny/sablon/actions/workflows/ruby.yml/badge.svg)](https://github.com/senny/sablon/actions)
+[![Build Status](https://github.com/senny/sablon_plus/actions/workflows/ruby.yml/badge.svg)](https://github.com/senny/sablon_plus/actions)
 
 Is a document template processor for Word `docx` files. It leverages Word's
 built-in formatting and layouting capabilities to make template creation easy
@@ -205,14 +205,14 @@ number of tags are very similar. HTML insertion is relatively complete
 covering several key content structures such as paragraphs, tables and lists.
 The snippet above showcases some of the capabilities present, for a comprehensive
 example please see the html insertion test fixture [here](test/fixtures/html/html_test_content.html).
-All html element conversions are defined in [configuration.rb](lib/sablon/configuration/configuration.rb)
-with their matching AST classes defined in [ast.rb](lib/sablon/html/ast.rb).
+All html element conversions are defined in [configuration.rb](lib/sablon_plus/configuration/configuration.rb)
+with their matching AST classes defined in [ast.rb](lib/sablon_plus/html/ast.rb).
 
 Basic conversion of CSS inline styles into matching WordML properties is possible
 using the `style=" ... "` attribute in the HTML markup. Not all CSS properties
 are supported as only a small subset of CSS styles have a direct Open Office XML
 equivalent. Styles are passed onto nested elements if the parent can't use them.
-The currently supported styles are also defined in [configuration.rb](lib/sablon/configuration/configuration.rb). Toggle
+The currently supported styles are also defined in [configuration.rb](lib/sablon_plus/configuration/configuration.rb). Toggle
 properties that aren't directly supported can be added using the
 `text-decoration: ` style attribute with the proper XML tag name as the
 value (i.e. `text-decoration: dstrike` for `w:dstrike`). Simple single value properties that do not need a conversion can be added using the XML property name directly, omitting the `w:` prefix i.e.
@@ -357,7 +357,7 @@ Sablon.configure do |config|
 end
 ```
 
-The default set of registered HTML tags and CSS property conversions are defined in [configuration.rb](lib/sablon/configuration/configuration.rb).
+The default set of registered HTML tags and CSS property conversions are defined in [configuration.rb](lib/sablon_plus/configuration/configuration.rb).
 
 #### Customizing HTML Tag Conversion
 
@@ -370,7 +370,7 @@ end
 The above tag simply adds a background color to text using the `<w:highlight w:val="cyan" />` property.
 
 
-More complex business logic can be supported by adding a new class under the `Sablon::HTMLConverter` namespace. The new class will likely subclass `Sablon::HTMLConverter::Node` or `Sablon::HTMLConverter::Collection` depending on the needed behavior. The current AST classes serve as additional examples and can be found in [ast.rb](/lib/sablon/html/ast.rb). When registering a new HTML tag that uses a custom AST class the class must be passed in either by name using a lowercased and underscored symbol or the class object itself.
+More complex business logic can be supported by adding a new class under the `Sablon::HTMLConverter` namespace. The new class will likely subclass `Sablon::HTMLConverter::Node` or `Sablon::HTMLConverter::Collection` depending on the needed behavior. The current AST classes serve as additional examples and can be found in [ast.rb](/lib/sablon_plus/html/ast.rb). When registering a new HTML tag that uses a custom AST class the class must be passed in either by name using a lowercased and underscored symbol or the class object itself.
 
 The block below shows how to register a new HTML tag that adds the following AST class: `Sablon::HTMLConverter::InstrText`.
 ```ruby
@@ -441,7 +441,7 @@ repository, which illustrates the functionality of sablon:
 
 <p align="center">
   <img
-  src="https://raw.githubusercontent.com/senny/sablon/master/misc/cv_template.png"
+  src="https://raw.githubusercontent.com/senny/sablon_plus/master/misc/cv_template.png"
   alt="Sablon Template"/>
 </p>
 
@@ -451,7 +451,7 @@ For more details, check out this [test case](test/sablon_test.rb).
 
 <p align="center">
   <img
-  src="https://raw.githubusercontent.com/senny/sablon/master/misc/cv_sample.png"
+  src="https://raw.githubusercontent.com/senny/sablon_plus/master/misc/cv_sample.png"
   alt="Sablon Output"/>
 </p>
 
@@ -464,7 +464,7 @@ The [template](test/fixtures/recipe_template.docx)
 
 <p align="center">
   <img
-  src="https://raw.githubusercontent.com/senny/sablon/master/misc/recipe_template.png"
+  src="https://raw.githubusercontent.com/senny/sablon_plus/master/misc/recipe_template.png"
   alt="Sablon Output"/>
 </p>
 
@@ -473,13 +473,13 @@ the data. Following is the resulting [output](test/fixtures/recipe_sample.docx):
 
 <p align="center">
   <img
-  src="https://raw.githubusercontent.com/senny/sablon/master/misc/recipe_sample.png"
+  src="https://raw.githubusercontent.com/senny/sablon_plus/master/misc/recipe_sample.png"
   alt="Sablon Output"/>
 </p>
 
 ## Contributing
 
-1. Fork it ( https://github.com/senny/sablon/fork )
+1. Fork it ( https://github.com/senny/sablon_plus/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

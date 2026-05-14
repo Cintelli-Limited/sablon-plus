@@ -9,7 +9,7 @@ require "ostruct"
 
 $: << File.expand_path('../../lib', __FILE__)
 require "sablon"
-require "sablon/test/assertions"
+require "sablon_plus/test/assertions"
 
 class SablonPlus::TestCase < Minitest::Test
   include SablonPlus::Test::Assertions

@@ -1,6 +1,6 @@
 require "securerandom"
-require "sablon/html/ast_builder"
-require "sablon/html/node_properties"
+require "sablon_plus/html/ast_builder"
+require "sablon_plus/html/node_properties"
 
 module SablonPlus
   class HTMLConverter

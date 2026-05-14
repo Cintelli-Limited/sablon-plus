@@ -1,6 +1,6 @@
-require 'sablon/processor/document/blocks'
-require 'sablon/processor/document/field_handlers'
-require 'sablon/processor/document/operation_construction'
+require 'sablon_plus/processor/document/blocks'
+require 'sablon_plus/processor/document/field_handlers'
+require 'sablon_plus/processor/document/operation_construction'
 
 module SablonPlus
   module Processor

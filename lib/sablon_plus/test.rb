@@ -1,1 +1,1 @@
-require "sablon/test/assertions"
+require "sablon_plus/test/assertions"
