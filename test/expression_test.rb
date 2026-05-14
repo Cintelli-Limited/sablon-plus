@@ -2,6 +2,65 @@
 require "test_helper"
 
 class ExpressionTest < Sablon::TestCase
+class ConditionalExpressionTest < Sablon::TestCase
+  def test_equality_comparison
+    expr = Sablon::Expression.parse("amount == 500")
+    assert expr.evaluate("amount" => 500)
+    refute expr.evaluate("amount" => 400)
+  end
+
+  def test_inequality_comparison
+    expr = Sablon::Expression.parse("amount != 500")
+    assert expr.evaluate("amount" => 400)
+    refute expr.evaluate("amount" => 500)
+  end
+
+  def test_greater_than
+    expr = Sablon::Expression.parse("amount > 500")
+    assert expr.evaluate("amount" => 600)
+    refute expr.evaluate("amount" => 400)
+  end
+
+  def test_less_than
+    expr = Sablon::Expression.parse("amount < 500")
+    assert expr.evaluate("amount" => 400)
+    refute expr.evaluate("amount" => 600)
+  end
+
+  def test_greater_than_or_equal
+    expr = Sablon::Expression.parse("amount >= 500")
+    assert expr.evaluate("amount" => 500)
+    assert expr.evaluate("amount" => 600)
+    refute expr.evaluate("amount" => 400)
+  end
+
+  def test_less_than_or_equal
+    expr = Sablon::Expression.parse("amount <= 500")
+    assert expr.evaluate("amount" => 500)
+    assert expr.evaluate("amount" => 400)
+    refute expr.evaluate("amount" => 600)
+  end
+
+  def test_string_equality
+    expr = Sablon::Expression.parse("matter.type == 'Litigation'")
+    assert expr.evaluate("matter" => OpenStruct.new(type: "Litigation"))
+    refute expr.evaluate("matter" => OpenStruct.new(type: "Other"))
+  end
+
+  def test_logical_and
+    expr = Sablon::Expression.parse("amount > 500 and matter.type == 'Litigation'")
+    assert expr.evaluate("amount" => 600, "matter" => OpenStruct.new(type: "Litigation"))
+    refute expr.evaluate("amount" => 400, "matter" => OpenStruct.new(type: "Litigation"))
+    refute expr.evaluate("amount" => 600, "matter" => OpenStruct.new(type: "Other"))
+  end
+
+  def test_logical_or
+    expr = Sablon::Expression.parse("amount > 500 or matter.type == 'Litigation'")
+    assert expr.evaluate("amount" => 600, "matter" => OpenStruct.new(type: "Other"))
+    assert expr.evaluate("amount" => 400, "matter" => OpenStruct.new(type: "Litigation"))
+    refute expr.evaluate("amount" => 400, "matter" => OpenStruct.new(type: "Other"))
+  end
+end
 end
 
 class VariableExpressionTest < Sablon::TestCase
