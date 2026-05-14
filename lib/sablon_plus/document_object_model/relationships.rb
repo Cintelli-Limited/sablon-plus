@@ -1,5 +1,5 @@
 require 'pathname'
-require 'sablon/document_object_model/file_handler'
+require 'sablon_plus/document_object_model/file_handler'
 
 module SablonPlus
   module DOM

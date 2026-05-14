@@ -1,6 +1,6 @@
-require 'sablon/document_object_model/model'
-require 'sablon/processor/document'
-require 'sablon/processor/section_properties'
+require 'sablon_plus/document_object_model/model'
+require 'sablon_plus/processor/document'
+require 'sablon_plus/processor/section_properties'
 
 module SablonPlus
   # Creates a template from an MS Word doc that can be easily manipulated
