@@ -1,4 +1,4 @@
-module Sablon
+module SablonPlus
   module DOM
     # An abstract class used to setup other file handling classes
     class FileHandler
