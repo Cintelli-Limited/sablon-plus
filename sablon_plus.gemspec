@@ -5,7 +5,7 @@ require 'sablon_plus/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "sablon_plus"
-  spec.version       = Sablon::VERSION
+  spec.version       = SablonPlus::VERSION
   spec.authors       = ["Yves Senn"]
   spec.email         = ["yves.senn@gmail.com"]
   spec.summary       = %q{docx template processor}
