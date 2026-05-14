@@ -1,4 +1,4 @@
-module Sablon
+module SablonPlus
   class Configuration
     # Stores the information for a single HTML tag. This information
     # is used by the HTMLConverter. An optional AST class can be defined,
