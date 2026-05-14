@@ -1,9 +1,9 @@
-require 'sablon/document_object_model/file_handler'
-require 'sablon/document_object_model/content_types'
-require 'sablon/document_object_model/numbering'
-require 'sablon/document_object_model/relationships'
+require 'sablon_plus/document_object_model/file_handler'
+require 'sablon_plus/document_object_model/content_types'
+require 'sablon_plus/document_object_model/numbering'
+require 'sablon_plus/document_object_model/relationships'
 
-module Sablon
+module SablonPlus
   # Stores classes used to build and interact with the template by treating
   # it as a full document model instead of disparate components that are
   # packaged together.
