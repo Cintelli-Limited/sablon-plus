@@ -1,6 +1,6 @@
 require 'sablon_plus/document_object_model/file_handler'
 
-module Sablon
+module SablonPlus
   module DOM
     # Adds new content types to the document
     class ContentTypes < FileHandler
