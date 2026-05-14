@@ -2,7 +2,7 @@
 require "test_helper"
 require "support/xml_snippets"
 
-class SablonTest < Sablon::TestCase
+class SablonTest < SablonPlus::TestCase
   include XMLSnippets
 
   def setup
@@ -14,7 +14,7 @@ class SablonTest < Sablon::TestCase
   end
 
   def test_generate_document_from_template
-    template = Sablon.template @template_path
+    template = SablonPlus.template @template_path
 
     skill = Struct.new(:index, :label, :rating)
     position = Struct.new(:when, :where, :tasks, :description)
@@ -24,7 +24,7 @@ class SablonTest < Sablon::TestCase
 
     context = {
       current_time: '15.04.2015 14:57',
-      metadata: { generator: "Sablon" },
+      metadata: { generator: "SablonPlus" },
       title: "Resume",
       person: OpenStruct.new("first_name" => "Ronald", "last_name" => "Anderson",
                              "phone" => "630-384-2975",
@@ -64,7 +64,7 @@ class SablonTest < Sablon::TestCase
                   language.new("German", "fluent"),
                   language.new("French", "basics"),
                  ],
-      about_me: Sablon.content(:html, "I am fond of writing <i>short stories</i> and <i>poems</i> in my spare time,  <br />and have won several literary contests in pursuit of my <b>passion</b>."),
+      about_me: SablonPlus.content(:html, "I am fond of writing <i>short stories</i> and <i>poems</i> in my spare time,  <br />and have won several literary contests in pursuit of my <b>passion</b>."),
       activities: ["Writing", "Photography", "Traveling"],
       referees: [
                  referee.new("Mary P. Larsen", "Strongbod",
@@ -84,7 +84,7 @@ class SablonTest < Sablon::TestCase
   end
 end
 
-class SablonConditionalsTest < Sablon::TestCase
+class SablonConditionalsTest < SablonPlus::TestCase
   include XMLSnippets
 
   def setup
@@ -96,7 +96,7 @@ class SablonConditionalsTest < Sablon::TestCase
   end
 
   def test_generate_document_from_template
-    template = Sablon.template @template_path
+    template = SablonPlus.template @template_path
     context = {
       paragraph: true,
       inline: true,
@@ -106,7 +106,7 @@ class SablonConditionalsTest < Sablon::TestCase
       success_content: '✓',
       fail_content: '✗',
       content: 'Some Content',
-      block_content: Sablon.content(:html, '<p>HTML paragraph injected</p>')
+      block_content: SablonPlus.content(:html, '<p>HTML paragraph injected</p>')
     }
     #
     template.render_to_file @output_path, context
@@ -114,7 +114,7 @@ class SablonConditionalsTest < Sablon::TestCase
   end
 end
 
-class SablonLoopsTest < Sablon::TestCase
+class SablonLoopsTest < SablonPlus::TestCase
   include XMLSnippets
 
   def setup
@@ -126,7 +126,7 @@ class SablonLoopsTest < Sablon::TestCase
   end
 
   def test_generate_document_from_template
-    template = Sablon.template @template_path
+    template = SablonPlus.template @template_path
     context = {
       fruits: %w[Apple Blueberry Cranberry Date].map { |i| { name: i } },
       cars: %w[Silverado Serria Ram Tundra].map { |i| { name: i } }
@@ -137,7 +137,7 @@ class SablonLoopsTest < Sablon::TestCase
   end
 end
 
-class SablonImagesTest < Sablon::TestCase
+class SablonImagesTest < SablonPlus::TestCase
   def setup
     super
     @base_path = Pathname.new(File.expand_path("../", __FILE__))
@@ -148,15 +148,15 @@ class SablonImagesTest < Sablon::TestCase
   end
 
   def test_generate_document_from_template
-    template = Sablon.template @template_path
+    template = SablonPlus.template @template_path
     #
     # setup two image contents to allow quick reuse
-    r2d2 = Sablon.content(:image, @image_fixtures.join('r2d2.jpg').to_s, properties: {height: '1cm', width: '1cm'})
-    c3po = Sablon.content(:image, @image_fixtures.join('c3po.jpg'))
-    darth = Sablon.content(:image, @image_fixtures.join('darth_vader.jpg'))
+    r2d2 = SablonPlus.content(:image, @image_fixtures.join('r2d2.jpg').to_s, properties: {height: '1cm', width: '1cm'})
+    c3po = SablonPlus.content(:image, @image_fixtures.join('c3po.jpg'))
+    darth = SablonPlus.content(:image, @image_fixtures.join('darth_vader.jpg'))
     #
     im_data = StringIO.new(IO.binread(@image_fixtures.join('clone.jpg')))
-    trooper = Sablon.content(:image, im_data, filename: 'clone.jpg', properties: {height: '1cm', width: '4cm'})
+    trooper = SablonPlus.content(:image, im_data, filename: 'clone.jpg', properties: {height: '1cm', width: '4cm'})
     #
     # with the following context setup all trooper should be reused and
     # only a single file added to media. R2D2 should get duplicated in the
@@ -179,7 +179,7 @@ class SablonImagesTest < Sablon::TestCase
     assert_docx_equal @sample_path, @output_path
 
     # try to render a document with an image that has no extension
-    trooper = Sablon.content(:image, im_data, filename: 'clone')
+    trooper = SablonPlus.content(:image, im_data, filename: 'clone')
     context = { items: [], trooper: trooper }
     e = assert_raises ArgumentError do
       template.render_to_file @output_path, context
@@ -188,7 +188,7 @@ class SablonImagesTest < Sablon::TestCase
   end
 end
 
-class SablonSvgImagesTest < Sablon::TestCase
+class SablonSvgImagesTest < SablonPlus::TestCase
   def setup
     super
     @base_path = Pathname.new(File.expand_path("../", __FILE__))
@@ -199,10 +199,10 @@ class SablonSvgImagesTest < Sablon::TestCase
   end
 
   def test_generate_document_from_template
-    template = Sablon.template @template_path
+    template = SablonPlus.template @template_path
 
     context = {
-      svg_sample: Sablon.content(:image, @image_fixtures.join('svg_sample.svg'))
+      svg_sample: SablonPlus.content(:image, @image_fixtures.join('svg_sample.svg'))
     }
 
     template.render_to_file @output_path, context

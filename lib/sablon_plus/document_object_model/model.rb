@@ -14,7 +14,7 @@ module SablonPlus
       # if a file in the entry set should be handled by the class.
       def register_dom_handler(pattern, klass)
         handlers[pattern] = klass
-        klass.extend_model(Sablon::DOM::Model)
+        klass.extend_model(SablonPlus::DOM::Model)
       end
 
       def wrap_with_handler(entry_name, content)
@@ -22,7 +22,7 @@ module SablonPlus
         if key
           handlers[key].new(content)
         else
-          Sablon::DOM::FileHandler.new(content)
+          SablonPlus::DOM::FileHandler.new(content)
         end
       end
 
@@ -72,7 +72,7 @@ module SablonPlus
       # namespace.
       def build_dom(entries)
         key_values = entries.map do |entry_name, content|
-          [entry_name, Sablon::DOM.wrap_with_handler(entry_name, content)]
+          [entry_name, SablonPlus::DOM.wrap_with_handler(entry_name, content)]
         end
         #
         Hash[key_values]
@@ -83,12 +83,12 @@ module SablonPlus
         #
         # create the entry and add it to the dom
         @zip_contents[name] = wrap_entry(name, init_content)
-        @dom[name] = Sablon::DOM.wrap_with_handler(name, @zip_contents[name])
+        @dom[name] = SablonPlus::DOM.wrap_with_handler(name, @zip_contents[name])
       end
     end
 
-    register_dom_handler(%r{word/numbering.xml}, Sablon::DOM::Numbering)
-    register_dom_handler(/.rels$/, Sablon::DOM::Relationships)
-    register_dom_handler(/Content_Types/, Sablon::DOM::ContentTypes)
+    register_dom_handler(%r{word/numbering.xml}, SablonPlus::DOM::Numbering)
+    register_dom_handler(/.rels$/, SablonPlus::DOM::Relationships)
+    register_dom_handler(/Content_Types/, SablonPlus::DOM::ContentTypes)
   end
 end

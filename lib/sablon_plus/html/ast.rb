@@ -2,7 +2,7 @@ require "securerandom"
 require "sablon/html/ast_builder"
 require "sablon/html/node_properties"
 
-module Sablon
+module SablonPlus
   class HTMLConverter
     # A top level abstract class to handle common logic for all AST nodes
     class Node
@@ -20,7 +20,7 @@ module Sablon
       def self.style_conversion
         # converts camelcase to underscored
         key = node_name.gsub(/([a-z])([A-Z])/, '\1_\2').downcase.to_sym
-        Sablon::Configuration.instance.defined_style_conversions.fetch(key, {})
+        SablonPlus::Configuration.instance.defined_style_conversions.fetch(key, {})
       end
 
       # maps the CSS style property to it's OpenXML equivalent. Not all CSS

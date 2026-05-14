@@ -6,7 +6,7 @@ puts "=" * 60
 puts "Test 1: Client name = 'Fraser Mayfield'"
 puts "=" * 60
 
-template = Sablon.template(File.expand_path("test/Letterhead - Conditional.docx"))
+template = SablonPlus.template(File.expand_path("test/Letterhead - Conditional.docx"))
 context = {
   entity: {
     address_1: "123 Law Street",

@@ -1,4 +1,4 @@
-module Sablon
+module SablonPlus
   class HTMLConverter
     # Manages the properties for an AST node, includes factory methods
     # for easy use at calling sites.

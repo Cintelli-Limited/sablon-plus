@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 require "test_helper"
 
-class HTMLConverterStyleTest < Sablon::TestCase
+class HTMLConverterStyleTest < SablonPlus::TestCase
   def setup
     super
     @template = MockTemplate.new
-    @env = Sablon::Environment.new(@template)
-    @converter = Sablon::HTMLConverter.new
+    @env = SablonPlus::Environment.new(@template)
+    @converter = SablonPlus::HTMLConverter.new
   end
 
   def teardown
@@ -237,7 +237,7 @@ class HTMLConverterStyleTest < Sablon::TestCase
   def test_conversion_of_a_registered_tag_without_ast_class
     # This registers a new tag with the configuration object and then tries
     # to convert it
-    Sablon.configure do |config|
+    SablonPlus.configure do |config|
       config.register_html_tag(:bgcyan, :inline, properties: { 'highlight' => { val: 'cyan' } })
     end
     #
@@ -246,15 +246,15 @@ class HTMLConverterStyleTest < Sablon::TestCase
     assert_equal normalize_wordml(expected_output), process(input)
 
     # remove the tag to avoid any accidental side effects
-    Sablon.configure do |config|
+    SablonPlus.configure do |config|
       config.remove_html_tag(:bgcyan)
     end
   end
 
   def test_conversion_of_a_registered_tag_with_ast_class
-    Sablon.configure do |config|
+    SablonPlus.configure do |config|
       # create the AST class and then pass it onto the register tag method
-      ast_class = Class.new(Sablon::HTMLConverter::Node) do
+      ast_class = Class.new(SablonPlus::HTMLConverter::Node) do
         def self.name
           'TestInstr'
         end
@@ -287,13 +287,13 @@ class HTMLConverterStyleTest < Sablon::TestCase
     assert_equal normalize_wordml(expected_output), process(input)
 
     # remove the tag to avoid any accidental side effects
-    Sablon.configure do |config|
+    SablonPlus.configure do |config|
       config.remove_html_tag(:test_instr)
     end
   end
 
   def test_conversion_of_registered_style_attribute
-    Sablon.configure do |config|
+    SablonPlus.configure do |config|
       converter = ->(v) { return :highlight, v }
       config.register_style_converter(:run, 'test-highlight', converter)
     end
@@ -302,7 +302,7 @@ class HTMLConverterStyleTest < Sablon::TestCase
     expected_output = run_with_rpr('<w:highlight w:val="green" />')
     assert_equal normalize_wordml(expected_output), process(input)
     #
-    Sablon.configure do |config|
+    SablonPlus.configure do |config|
       config.remove_style_converter(:run, 'test-highlight')
     end
   end

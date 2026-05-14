@@ -1,4 +1,4 @@
-module Sablon
+module SablonPlus
   # Combines the user supplied context and template into a single object
   # to manage data during template processing.
   class Environment

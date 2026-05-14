@@ -2,7 +2,7 @@
 require_relative 'lib/sablon'
 
 # Add debug logging
-module Sablon
+module SablonPlus
   module Processor
     class Document
       module FieldHandlers
@@ -23,7 +23,7 @@ module Sablon
 end
 
 # Test
-template = Sablon.template('test/Letterhead - Conditional.docx')
+template = SablonPlus.template('test/Letterhead - Conditional.docx')
 context = {
   client: { name: "Fraser Mayfield" },
   entity: { address_1: "123 Law St", address_city: "Sydney", address_postcode: "2000" },

@@ -2,7 +2,7 @@
 require "test_helper"
 require "support/html_snippets"
 
-class SablonHTMLTest < Sablon::TestCase
+class SablonHTMLTest < SablonPlus::TestCase
   include HTMLSnippets
 
   def setup
@@ -15,7 +15,7 @@ class SablonHTMLTest < Sablon::TestCase
   def test_generate_document_from_template_with_styles_and_html
     template_path = @base_path + "fixtures/insertion_template.docx"
     output_path = @base_path + "sandbox/html.docx"
-    template = Sablon.template template_path
+    template = SablonPlus.template template_path
     context = {
       'html:content' => content,
       inline_content: {
@@ -32,7 +32,7 @@ class SablonHTMLTest < Sablon::TestCase
   def test_generate_document_from_template_without_styles_and_html
     template_path = @base_path + "fixtures/insertion_template_no_styles.docx"
     output_path = @base_path + "sandbox/html_no_styles.docx"
-    template = Sablon.template template_path
+    template = SablonPlus.template template_path
     context = { 'html:content' => content }
 
     e = assert_raises(ArgumentError) do

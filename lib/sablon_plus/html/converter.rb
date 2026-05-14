@@ -1,7 +1,7 @@
 require "sablon/html/ast"
 require "sablon/html/visitor"
 
-module Sablon
+module SablonPlus
   class HTMLConverter
     def process(input, env)
       @env = env

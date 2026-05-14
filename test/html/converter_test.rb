@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 require "test_helper"
 
-class HTMLConverterTest < Sablon::TestCase
+class HTMLConverterTest < SablonPlus::TestCase
   def setup
     super
     @template = MockTemplate.new
-    @env = Sablon::Environment.new(@template)
-    @converter = Sablon::HTMLConverter.new
+    @env = SablonPlus::Environment.new(@template)
+    @converter = SablonPlus::HTMLConverter.new
   end
 
   def teardown

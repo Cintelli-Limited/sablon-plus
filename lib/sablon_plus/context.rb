@@ -1,4 +1,4 @@
-module Sablon
+module SablonPlus
   # A context represents the user supplied arguments to render a
   # template.
   #

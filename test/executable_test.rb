@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ExecutableTest < Sablon::TestCase
+class ExecutableTest < SablonPlus::TestCase
   def setup
     super
     @base_path = Pathname.new(File.expand_path("../", __FILE__))

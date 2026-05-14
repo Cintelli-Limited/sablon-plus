@@ -2,7 +2,7 @@ require 'sablon/document_object_model/model'
 require 'sablon/processor/document'
 require 'sablon/processor/section_properties'
 
-module Sablon
+module SablonPlus
   # Creates a template from an MS Word doc that can be easily manipulated
   class Template
     attr_reader :document
@@ -53,14 +53,14 @@ module Sablon
 
     def render(context, properties = {})
       # initialize environment
-      @document = Sablon::DOM::Model.new(
+      @document = SablonPlus::DOM::Model.new(
         if defined?(Zip::VERSION) && Gem::Version.new(Zip::VERSION) >= Gem::Version.new('3.0.0')
           Zip::File.open(@path, create: !File.exist?(@path))
         else
           Zip::File.open(@path, !File.exist?(@path))
         end
       )
-      env = Sablon::Environment.new(self, context)
+      env = SablonPlus::Environment.new(self, context)
       env.section_properties = properties
       #
       # process files
@@ -122,7 +122,7 @@ module Sablon
   end
 
   # Register the standard processors
-  Template.register_processor(%r{word/document.xml}, Sablon::Processor::Document)
-  Template.register_processor(%r{word/document.xml}, Sablon::Processor::SectionProperties)
-  Template.register_processor(%r{word/(?:header|footer)\d*\.xml}, Sablon::Processor::Document)
+  Template.register_processor(%r{word/document.xml}, SablonPlus::Processor::Document)
+  Template.register_processor(%r{word/document.xml}, SablonPlus::Processor::SectionProperties)
+  Template.register_processor(%r{word/(?:header|footer)\d*\.xml}, SablonPlus::Processor::Document)
 end

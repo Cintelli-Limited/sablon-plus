@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class SablonCustomFieldHandlerTest < Sablon::TestCase
+class SablonCustomFieldHandlerTest < SablonPlus::TestCase
   #
   # This class supports more advanced conditional expressions and crafted
   # by @moritzgloeckl in PR #73
-  class OperatorCondition < Sablon::Statement::Condition
+  class OperatorCondition < SablonPlus::Statement::Condition
     def eval_conditional_blocks(env)
       #
       # evaluate each expression until a true one is found, false blocks
@@ -53,7 +53,7 @@ class SablonCustomFieldHandlerTest < Sablon::TestCase
   end
 
   # Handles conditional blocks in the template that use an operator
-  class OperatorConditionalHandler < Sablon::Processor::Document::ConditionalHandler
+  class OperatorConditionalHandler < SablonPlus::Processor::Document::ConditionalHandler
     def build_statement(constructor, field, _options = {})
       expr_name = field.expression.match(@pattern).to_a[1]
       args = [
@@ -77,7 +77,7 @@ class SablonCustomFieldHandlerTest < Sablon::TestCase
     #
     # register new handlers to allow insertion without equals sign and
     # advanced conditionals
-    klass = Sablon::Processor::Document
+    klass = SablonPlus::Processor::Document
     @orig_conditional_handler = klass.remove_field_handler :conditional
     klass.register_field_handler :default, klass.field_handlers[:insertion]
     klass.register_field_handler :conditional, OperatorConditionalHandler.new
@@ -85,12 +85,12 @@ class SablonCustomFieldHandlerTest < Sablon::TestCase
 
   def teardown
     # remove extra handlers
-    Sablon::Processor::Document.remove_field_handler :default
-    Sablon::Processor::Document.replace_field_handler :conditional, @orig_conditional_handler
+    SablonPlus::Processor::Document.remove_field_handler :default
+    SablonPlus::Processor::Document.replace_field_handler :conditional, @orig_conditional_handler
   end
 
   def test_generate_document_from_template
-    template = Sablon.template @template_path
+    template = SablonPlus.template @template_path
     context = {
       normal_field: 'success1',
       no_leading_equals: 'success2',

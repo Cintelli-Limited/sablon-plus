@@ -1,7 +1,7 @@
 require 'pathname'
 require 'sablon/document_object_model/file_handler'
 
-module Sablon
+module SablonPlus
   module DOM
     # Adds new relationships to the entry's corresponding relationships file
     class Relationships < FileHandler

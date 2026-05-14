@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-module Sablon
+module SablonPlus
   module Statement
     class Insertion < Struct.new(:expr, :field)
       def evaluate(env)
         if content = expr.evaluate(env.context)
-          field.replace(Sablon::Content.wrap(content), env)
+          field.replace(SablonPlus::Content.wrap(content), env)
         else
           field.remove
         end

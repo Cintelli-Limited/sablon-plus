@@ -3,15 +3,15 @@ require "test_helper"
 
 # Tests some low level private methods in the ASTBuilder class. #process_nodes
 # and self.html_to_ast are covered extensively in converter_test.rb
-class HTMLConverterASTBuilderTest < Sablon::TestCase
+class HTMLConverterASTBuilderTest < SablonPlus::TestCase
   def setup
     super
-    @env = Sablon::Environment.new(nil)
+    @env = SablonPlus::Environment.new(nil)
   end
 
   def test_fetch_tag
     @builder = new_builder
-    tag = Sablon::Configuration.instance.permitted_html_tags[:span]
+    tag = SablonPlus::Configuration.instance.permitted_html_tags[:span]
     assert_equal @builder.send(:fetch_tag, :span), tag
     # check that strings are converted into symbols
     assert_equal @builder.send(:fetch_tag, 'span'), tag
@@ -24,8 +24,8 @@ class HTMLConverterASTBuilderTest < Sablon::TestCase
 
   def test_validate_structure
     @builder = new_builder
-    div = Sablon::Configuration.instance.permitted_html_tags[:div]
-    span = Sablon::Configuration.instance.permitted_html_tags[:span]
+    div = SablonPlus::Configuration.instance.permitted_html_tags[:div]
+    span = SablonPlus::Configuration.instance.permitted_html_tags[:span]
     # test valid relationship
     assert_nil @builder.send(:validate_structure, div, span)
     # test inverted relationship
@@ -54,6 +54,6 @@ class HTMLConverterASTBuilderTest < Sablon::TestCase
   private
 
   def new_builder(nodes = [], properties = {})
-    Sablon::HTMLConverter::ASTBuilder.new(@env, nodes, properties)
+    SablonPlus::HTMLConverter::ASTBuilder.new(@env, nodes, properties)
   end
 end

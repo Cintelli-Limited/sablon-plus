@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 require "test_helper"
 
-class HTMLConverterASTTest < Sablon::TestCase
+class HTMLConverterASTTest < SablonPlus::TestCase
   def setup
     super
     @template = MockTemplate.new
-    @env = Sablon::Environment.new(@template)
-    @converter = Sablon::HTMLConverter.new
+    @env = SablonPlus::Environment.new(@template)
+    @converter = SablonPlus::HTMLConverter.new
     @converter.instance_variable_set(:@env, @env)
   end
 
@@ -46,31 +46,31 @@ class HTMLConverterASTTest < Sablon::TestCase
 
   def test_br_in_strong
     input = '<div><strong>Lorem<br />ipsum<br />dolor</strong></div>'
-    par = @converter.processed_ast(input).grep(Sablon::HTMLConverter::Paragraph).first
+    par = @converter.processed_ast(input).grep(SablonPlus::HTMLConverter::Paragraph).first
     assert_equal "[<Run{b}: Lorem>, <Newline>, <Run{b}: ipsum>, <Newline>, <Run{b}: dolor>]", par.runs.inspect
   end
 
   def test_br_in_em
     input = '<div><em>Lorem<br />ipsum<br />dolor</em></div>'
-    par = @converter.processed_ast(input).grep(Sablon::HTMLConverter::Paragraph).first
+    par = @converter.processed_ast(input).grep(SablonPlus::HTMLConverter::Paragraph).first
     assert_equal "[<Run{i}: Lorem>, <Newline>, <Run{i}: ipsum>, <Newline>, <Run{i}: dolor>]", par.runs.inspect
   end
 
   def test_nested_strong_and_em
     input = '<div><strong>Lorem <em>ipsum</em> dolor</strong></div>'
-    par = @converter.processed_ast(input).grep(Sablon::HTMLConverter::Paragraph).first
+    par = @converter.processed_ast(input).grep(SablonPlus::HTMLConverter::Paragraph).first
     assert_equal "[<Run{b}: Lorem >, <Run{b;i}: ipsum>, <Run{b}:  dolor>]", par.runs.inspect
   end
 
   def test_ignore_last_br_in_div
     input = '<div>Lorem ipsum dolor sit amet<br /></div>'
-    par = @converter.processed_ast(input).grep(Sablon::HTMLConverter::Paragraph).first
+    par = @converter.processed_ast(input).grep(SablonPlus::HTMLConverter::Paragraph).first
     assert_equal "[<Run{}: Lorem ipsum dolor sit amet>]", par.runs.inspect
   end
 
   def test_ignore_br_in_blank_div
     input = '<div><br /></div>'
-    par = @converter.processed_ast(input).grep(Sablon::HTMLConverter::Paragraph).first
+    par = @converter.processed_ast(input).grep(SablonPlus::HTMLConverter::Paragraph).first
     assert_equal "[]", par.runs.inspect
   end
 
@@ -148,7 +148,7 @@ class HTMLConverterASTTest < Sablon::TestCase
   # returns the numid attribute from paragraphs
   def get_numpr_prop_from_ast(ast, key)
     values = []
-    ast.grep(Sablon::HTMLConverter::ListParagraph).each do |para|
+    ast.grep(SablonPlus::HTMLConverter::ListParagraph).each do |para|
       numpr = para.instance_variable_get('@properties')[:numPr]
       numpr.each { |val| values.push(val[key]) if val[key] }
     end

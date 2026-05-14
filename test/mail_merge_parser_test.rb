@@ -7,8 +7,8 @@ module MailMergeParser
     include DocumentXMLHelper
     def setup
       super
-      @env = Sablon::Environment.new(nil)
-      @parser = Sablon::Parser::MailMerge.new
+      @env = SablonPlus::Environment.new(nil)
+      @parser = SablonPlus::Parser::MailMerge.new
     end
 
     def field
@@ -28,7 +28,7 @@ module MailMergeParser
     end
   end
 
-  class FldSimpleTest < Sablon::TestCase
+  class FldSimpleTest < SablonPlus::TestCase
     include SharedBehavior
 
     def test_recognizes_expression
@@ -36,7 +36,7 @@ module MailMergeParser
     end
 
     def test_replace
-      field.replace(Sablon.content(:string, "Hello"), @env)
+      field.replace(SablonPlus.content(:string, "Hello"), @env)
       xml = <<-xml.strip
 <w:p>
 <w:r w:rsidR=\"004B49F0\">
@@ -63,7 +63,7 @@ xml
     end
   end
 
-  class FldCharTest < Sablon::TestCase
+  class FldCharTest < SablonPlus::TestCase
     include SharedBehavior
 
     def test_recognizes_expression
@@ -71,7 +71,7 @@ xml
     end
 
     def test_replace
-      field.replace(Sablon.content(:string, "Hello"), @env)
+      field.replace(SablonPlus.content(:string, "Hello"), @env)
       xml = <<-xml.strip
 <w:p>
 
@@ -120,7 +120,7 @@ xml
     end
   end
 
-  class InvalidFldCharTest < Sablon::TestCase
+  class InvalidFldCharTest < SablonPlus::TestCase
     include SharedBehavior
 
     def test_is_ignored
@@ -147,7 +147,7 @@ xml
     end
   end
 
-  class FldCharWithoutDisplayNodeTest < Sablon::TestCase
+  class FldCharWithoutDisplayNodeTest < SablonPlus::TestCase
     include SharedBehavior
 
     def test_is_ignoredd
@@ -180,7 +180,7 @@ xml
     end
   end
 
-  class NonSablonFieldTest < Sablon::TestCase
+  class NonSablonFieldTest < SablonPlus::TestCase
     include SharedBehavior
 
     def test_is_ignored
@@ -236,7 +236,7 @@ xml
     end
   end
 
-  class FieldWithWhitespaceTest < Sablon::TestCase
+  class FieldWithWhitespaceTest < SablonPlus::TestCase
     include SharedBehavior
 
     def test_recognizes_expression

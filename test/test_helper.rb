@@ -11,8 +11,8 @@ $: << File.expand_path('../../lib', __FILE__)
 require "sablon"
 require "sablon/test/assertions"
 
-class Sablon::TestCase < Minitest::Test
-  include Sablon::Test::Assertions
+class SablonPlus::TestCase < Minitest::Test
+  include SablonPlus::Test::Assertions
 
   def teardown
     super
@@ -59,7 +59,7 @@ class Sablon::TestCase < Minitest::Test
 
     # Returns the corresponding DOM handled file
     def [](entry_name)
-      Sablon::DOM.wrap_with_handler(entry_name, @zip_contents[entry_name])
+      SablonPlus::DOM.wrap_with_handler(entry_name, @zip_contents[entry_name])
     end
 
     def add_relationship(*)

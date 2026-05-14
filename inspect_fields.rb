@@ -6,13 +6,13 @@ require_relative 'lib/sablon'
 class FieldInspector
   def self.inspect_template
     template_path = 'test/Letterhead - Conditional.docx'
-    doc = Sablon::Template.new(template_path)
+    doc = SablonPlus::Template.new(template_path)
     
     # Access internal processor
     processor = doc.instance_variable_get(:@processor)
     
     # Monkey patch to see fields
-    parser_class = Sablon::Parser::MailMerge
+    parser_class = SablonPlus::Parser::MailMerge
     orig_parse = parser_class.method(:parse)
     
     parser_class.define_singleton_method(:parse) do |document|

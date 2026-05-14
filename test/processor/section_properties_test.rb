@@ -1,11 +1,11 @@
 require "test_helper"
 require "support/document_xml_helper"
 
-class SectionPropertiesTest < Sablon::TestCase
+class SectionPropertiesTest < SablonPlus::TestCase
   include DocumentXMLHelper
 
   def setup
-    @env = Sablon::Environment.new(nil, {})
+    @env = SablonPlus::Environment.new(nil, {})
   end
 
   def test_process
@@ -24,7 +24,7 @@ class SectionPropertiesTest < Sablon::TestCase
     xml = wrap(xml)
     #
     @env.section_properties = { start_page_number: 123 }
-    Sablon::Processor::SectionProperties.process(xml, @env)
+    SablonPlus::Processor::SectionProperties.process(xml, @env)
     #
     assert_xml_equal expected, xml.to_s
   end
@@ -42,7 +42,7 @@ class SectionPropertiesTest < Sablon::TestCase
       </w:body>
     XML
     #
-    properties = Sablon::Processor::SectionProperties.new(xml)
+    properties = SablonPlus::Processor::SectionProperties.new(xml)
     assert_equal "1", properties.start_page_number
     properties.start_page_number = "23"
     assert_equal "23", properties.start_page_number
@@ -60,7 +60,7 @@ class SectionPropertiesTest < Sablon::TestCase
       </w:body>
     XML
     #
-    properties = Sablon::Processor::SectionProperties.new(xml)
+    properties = SablonPlus::Processor::SectionProperties.new(xml)
     assert_nil properties.start_page_number
     properties.start_page_number = "16"
     assert_equal "16", properties.start_page_number

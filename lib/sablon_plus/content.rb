@@ -1,17 +1,17 @@
 require 'open-uri'
 
-module Sablon
+module SablonPlus
   module Content
     class << self
       def wrap(value)
         case value
-        when Sablon::Content
+        when SablonPlus::Content
           value
         else
           if type = type_wrapping(value)
             type.new(value)
           else
-            raise ArgumentError, "Could not find Sablon content type to wrap #{value.inspect}"
+            raise ArgumentError, "Could not find SablonPlus content type to wrap #{value.inspect}"
           end
         end
       end
@@ -20,7 +20,7 @@ module Sablon
         if types.key?(type_id)
           types[type_id].new(*args)
         else
-          raise ArgumentError, "Could not find Sablon content type with id '#{type_id}'"
+          raise ArgumentError, "Could not find SablonPlus content type with id '#{type_id}'"
         end
       end
 
@@ -44,7 +44,7 @@ module Sablon
 
     # Handles simple text replacement of fields in the template
     class String < Struct.new(:string)
-      include Sablon::Content
+      include SablonPlus::Content
       def self.id; :string end
       def self.wraps?(value)
         value.respond_to?(:to_s)
@@ -69,7 +69,7 @@ module Sablon
 
     # handles direct addition of WordML to the document template
     class WordML < Struct.new(:xml)
-      include Sablon::Content
+      include SablonPlus::Content
       def self.id; :word_ml end
       def self.wraps?(value) false end
 
@@ -162,7 +162,7 @@ module Sablon
 
     # Handles conversion of HTML -> WordML and addition into template
     class HTML < Struct.new(:html_content)
-      include Sablon::Content
+      include SablonPlus::Content
       def self.id; :html end
       def self.wraps?(value) false end
 
@@ -235,7 +235,7 @@ module Sablon
           begin
             name = File.basename(source)
           rescue TypeError
-            raise ArgumentError, "Error: Could not determine filename from source, try: `Sablon.content(readable_obj, filename: '...')`"
+            raise ArgumentError, "Error: Could not determine filename from source, try: `SablonPlus.content(readable_obj, filename: '...')`"
           end
         end
         #
@@ -259,9 +259,9 @@ module Sablon
       end
     end
 
-    register Sablon::Content::String
-    register Sablon::Content::WordML
-    register Sablon::Content::HTML
-    register Sablon::Content::Image
+    register SablonPlus::Content::String
+    register SablonPlus::Content::WordML
+    register SablonPlus::Content::HTML
+    register SablonPlus::Content::Image
   end
 end

@@ -23,7 +23,7 @@ module SablonPlus
     #              `:properties`, `:attributes` and `:allowed_children`.
     #
     # Example
-    #  HTMLTag.new(:div, :block, ast_class: Sablon::HTMLConverter::Paragraph,
+    #  HTMLTag.new(:div, :block, ast_class: SablonPlus::HTMLConverter::Paragraph,
     #              properties: { pStyle: 'Normal' })
     class HTMLTag
       attr_reader :name, :type, :ast_class, :attributes, :properties,
@@ -80,7 +80,7 @@ module SablonPlus
       end
 
       # converts a string or symbol to a class defined under
-      # Sablon::HTMLConverter
+      # SablonPlus::HTMLConverter
       def ast_class=(value)
         if value.is_a? Class
           @ast_class = value
@@ -92,7 +92,7 @@ module SablonPlus
         # ActiveSupport::Inflector.constantize but refactored to be specific
         # to the HTMLConverter class
         value.gsub!(/(?:^|_)([a-z])/) { Regexp.last_match[1].capitalize }
-        @ast_class = Sablon::HTMLConverter.const_get(value)
+        @ast_class = SablonPlus::HTMLConverter.const_get(value)
       end
     end
   end

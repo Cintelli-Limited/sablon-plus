@@ -1,4 +1,4 @@
-module Sablon
+module SablonPlus
   class HTMLConverter
     class Visitor
       def visit(node)

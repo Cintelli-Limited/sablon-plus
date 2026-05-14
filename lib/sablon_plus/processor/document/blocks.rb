@@ -1,4 +1,4 @@
-module Sablon
+module SablonPlus
   module Processor
     class Document
       class Block

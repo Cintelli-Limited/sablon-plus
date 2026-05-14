@@ -2,7 +2,7 @@ require 'sablon/processor/document/blocks'
 require 'sablon/processor/document/field_handlers'
 require 'sablon/processor/document/operation_construction'
 
-module Sablon
+module SablonPlus
   module Processor
     # This class manages processing of the XML portions of a word document
     # that can contain mailmerge fields
@@ -62,7 +62,7 @@ module Sablon
       end
 
       def self.parser
-        @parser ||= Sablon::Parser::MailMerge.new
+        @parser ||= SablonPlus::Parser::MailMerge.new
       end
 
       def initialize(parser)

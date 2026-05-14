@@ -1,4 +1,4 @@
-module Sablon
+module SablonPlus
   module Test
     module Assertions
       def assert_docx_equal(expected_path, actual_path)

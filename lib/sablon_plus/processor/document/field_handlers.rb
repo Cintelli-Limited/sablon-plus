@@ -1,4 +1,4 @@
-module Sablon
+module SablonPlus
   module Processor
     class Document
       # This class is used to setup field handlers to process different

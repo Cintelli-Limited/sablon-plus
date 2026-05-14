@@ -1,4 +1,4 @@
-module Sablon
+module SablonPlus
   module Processor
     class SectionProperties
       def self.process(xml_node, env)

@@ -1,4 +1,4 @@
-module Sablon
+module SablonPlus
   class HTMLConverter
     # Converts a nokogiri HTML fragment into an equivalent AST structure
     class ASTBuilder
@@ -20,10 +20,10 @@ module Sablon
       # raises an ArgumentError if the tag is not registered
       def self.fetch_tag(tag_name)
         tag_name = tag_name.to_sym
-        unless Sablon::Configuration.instance.permitted_html_tags[tag_name]
+        unless SablonPlus::Configuration.instance.permitted_html_tags[tag_name]
           raise ArgumentError, "Don't know how to handle HTML tag: #{tag_name}"
         end
-        Sablon::Configuration.instance.permitted_html_tags[tag_name]
+        SablonPlus::Configuration.instance.permitted_html_tags[tag_name]
       end
 
       private
