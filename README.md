@@ -300,6 +300,19 @@ For more complex conditionals you can use a predicate like so:
 «body:endIf»
 ```
 
+String values also support `starts_with` and `contains` predicates with a quoted
+argument:
+
+```
+«name:if(starts_with("Dr."))»
+  ... render when the name begins with "Dr." ...
+«name:endIf»
+
+«description:if(contains("urgent"))»
+  ... render when the description contains "urgent" ...
+«description:endIf»
+```
+
 Finally, you can also mix in `elsif` and `else` clauses as well.
 
 ```

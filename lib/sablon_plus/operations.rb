@@ -111,6 +111,12 @@ module SablonPlus
       end
 
       def evaluate_predicate(predicate, obj, context)
+        if match = predicate.match(/\A(starts_with|contains)\s*\(\s*(['"])(.*?)\2\s*\)\z/)
+          return false unless obj.is_a?(String)
+
+          return match[1] == 'starts_with' ? obj.start_with?(match[3]) : obj.include?(match[3])
+        end
+
         # Handle comparison expressions like "client.name == 'Fraser Mayfield'"
         if predicate =~ /(.+?)\s*(==|!=|>|<|>=|<=)\s*(.+)/
           left_expr = $1.strip

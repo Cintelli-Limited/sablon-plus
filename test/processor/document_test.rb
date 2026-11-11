@@ -557,6 +557,14 @@ class ProcessorDocumentTest < SablonPlus::TestCase
     assert_equal "", text(result)
   end
 
+  def test_conditional_with_starts_with_and_contains_predicates
+    result = process(snippet("conditional_with_string_predicates"), {"value" => "prefix-middle-suffix"})
+    assert_equal "starts with contains", text(result)
+
+    result = process(snippet("conditional_with_string_predicates"), {"value" => "other"})
+    assert_equal "", text(result)
+  end
+
   def test_conditional_with_elsif_else_clauses
     result = process(snippet("conditional_with_elsif_else_clauses"), {'object' => OpenStruct.new(method_a: true, method_b: true)})
     assert_xml_equal <<-document, result

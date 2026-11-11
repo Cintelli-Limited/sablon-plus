@@ -1,0 +1,16 @@
+<w:p>
+  <w:fldSimple w:instr=" MERGEFIELD value:if(starts_with(&quot;pre&quot;)) \* MERGEFORMAT ">
+    <w:r><w:t>«value:if(starts_with("pre"))»</w:t></w:r>
+  </w:fldSimple>
+  <w:r><w:t>starts with</w:t></w:r>
+  <w:fldSimple w:instr=" MERGEFIELD value:endIf \* MERGEFORMAT ">
+    <w:r><w:t>«value:endIf»</w:t></w:r>
+  </w:fldSimple>
+  <w:fldSimple w:instr=" MERGEFIELD value:if(contains(&quot;mid&quot;)) \* MERGEFORMAT ">
+    <w:r><w:t>«value:if(contains("mid"))»</w:t></w:r>
+  </w:fldSimple>
+  <w:r><w:t> contains</w:t></w:r>
+  <w:fldSimple w:instr=" MERGEFIELD value:endIf \* MERGEFORMAT ">
+    <w:r><w:t>«value:endIf»</w:t></w:r>
+  </w:fldSimple>
+</w:p>

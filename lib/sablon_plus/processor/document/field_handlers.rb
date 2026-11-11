@@ -57,7 +57,7 @@ module SablonPlus
       # Handles conditional blocks in the template
       class ConditionalHandler < FieldHandler
         def initialize
-          super(/([^ ]+):if(?:\(([^)]+)\))?/)
+          super(/([^ ]+):if(?:\((.*)\))?/)
         end
 
         def build_statement(constructor, field, _options = {})
@@ -66,7 +66,7 @@ module SablonPlus
             # end expression (first arg)
             "#{expr_name}:endIf",
             # sub block patterns to check for
-            /(#{expr_name}):els[iI]f(?:\(([^)]+)\))?/,
+            /(#{expr_name}):els[iI]f(?:\((.*)\))?/,
             /(#{expr_name}):else/
           ]
           blocks = process_blocks(constructor.consume_multi_block(*args))
@@ -79,7 +79,7 @@ module SablonPlus
         # simplify usage in Statement
         def process_blocks(blocks)
           blocks.map do |block|
-            pattern = /([^ ]+):(?:if|els[iI]f|else)(?:\(([^)]+)\))?/
+            pattern = /([^ ]+):(?:if|els[iI]f|else)(?:\((.*)\))?/
             expr, pred = block.start_field.expression.match(pattern).to_a[1..2]
             expr = Expression.parse(expr)
             #
